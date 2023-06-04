@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+<div>
+    <table id="tb">
+        <tr>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>年龄</td>
+        </tr>
+    </table>
+    <input id="testJson" type="button" value="查询所有用户" />
+
+    <table id="ta">
+        <tr>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>年龄</td>
+        </tr>
+    </table>
+    <input id="testJson2" type="button" value="查询单个用户" />
+
+</div>
+</body>
+
+<script type="text/javascript">
+
+    $(document).ready(
+        function findAll(){
+            $("#testJson").click(function(){
+                //按钮只可以被点击一次
+                $(this).attr('disable', 1);
+                //通过ajax请求springmvc
+                $.get(
+                    "http://localhost:8080/users",//服务器地址
+                    function(result) {
+                        for (var i = 0; i < result.length; i++) {
+                            var trTD =
+                                "<tr><td>" +
+                                result[i].id + "</td><td>" +
+                                result[i].name + "</td><td>" +
+                                result[i].age+
+                                "</td></tr>";
+
+                            $("#tb").append(trTD);
+                        }
+                    }
+                );
+            });
+    });
+    $(document).ready(
+        function findOne() {
+            $("#testJson2").click(function(){
+                //按钮只可以被点击一次
+                $(this).attr('disable', 1);
+                //通过ajax请求springmvc
+                $.get(
+                    "http://localhost:8080/oneuser?id=1",//服务器地址
+                    function(result) {
+                        var trTD =
+                            "<tr><td>" +
+                            result.id + "</td><td>" +
+                            result.name + "</td><td>" +
+                            result.age+
+                            "</td></tr>";
+                            $("#ta").append(trTD);
+                    }
+                );
+            });
+        });
+
+</script>
+
+</html>
